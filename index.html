@@ -30,8 +30,8 @@
                         <i class="layui-icon"
                            style="display:block;color: black;width: 21px;font-size:20px;height: 34px; text-align: center">&#xe667;</i>
                         <span style="display:block;width: 5px;height: 5px;border: 1px solid red;border-radius: 50%;margin-top: 12px"></span>
-                        <img src="images/tu1.png" alt="头像"
-                             style="width: 50px;height: 50px;margin-left: 18px;margin-top: 5px">
+                        <img src="images/user.png" alt="头像"
+                             style="width: 45px;height: 45px;margin-left: 18px;margin-top: 5px">
                         <div style="display: flex" class="menu">
                             <cite style="color: black;font-size: 16px;margin-left: 18px" class="htc">后台陈经理</cite>
                             <i class="layui-icon turn" style="display:block;color: black;margin-left: 10px">&#xe61a;</i>
@@ -150,6 +150,13 @@
         let arr=decode.split('&')//通过&分解
         let name=arr[0].split('=')[1]//通过=分解
         let pass=arr[1].split('=')[1]
+
+        $.post('http://www.shouziliu.com/baishi/user/check.php',{
+            username:name,
+            password:pass
+        },function (data) {
+            $(".htc").html(data.username);
+        });
 
     $(".quick").click(function () {
         $.post('http://www.shouziliu.com/baishi/user/quit.php',{
