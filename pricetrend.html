@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #pricetrend{
+            width: 100%;
+            height: 600px;
+            background-color: #f8f8f8;
+            margin: 25px 0;
+        }
+        .pricetrend-top{
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .pricetrend-bottom{
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .pricetrend-tp-left{
+            width: 65%;
+            height: 270px;
+            background: white;
+        }
+        .pricetrend-tp-right{
+            width: 30%;
+            height: 270px;
+            background: white;
+        }
+        .pricetrend-btm-left{
+            width: 65%;
+            height: 300px;
+            background: white;
+            margin-top: -15px;
+        }
+        .pricetrend-btm-right{
+            width: 30%;
+            height: 300px;
+            background: white;
+            margin-top: -15px;
+        }
+        .compare {
+            width: 100%;
+            height: 300px;
+        }
+        .compare>div>p{
+            margin-top: 10px;
+            margin-left: 50px;
+            font-size: 18px;
+        }
+        .compare>div>select{
+            border: none;
+            /*appearance:none;*/
+            /*-moz-appearance:none;*/
+            /*-webkit-appearance:none;*/
+            font-size: 12px;
+            /*background: url("images/fu_xiala.jpg") no-repeat scroll right center transparent;*/
+        }
+        .compare > table {
+            font-size: 16px;
+            text-align: center;
+            width: 380px;
+            margin: 0 auto;
+        }
+        .compare > table tr{
+            width: 420px;
+            height: 60px;
+        }
+        .compare > table td {
+            width: 300px;
+        }
+
+        .compare > table span {
+            font-size: 12px;
+            color: #333;
+            opacity: 0.5;
+        }
+        .pricetrend-tp-right>div>p{
+            margin-top: 10px;
+            margin-left: 50px;
+            font-size: 18px;
+        }
+        .pricetrend-tp-right>div>select{
+            border: none;
+            /*appearance:none;*/
+            /*-moz-appearance:none;*/
+            /*-webkit-appearance:none;*/
+            font-size: 12px;
+            /*background: url("images/fu_xiala.jpg") no-repeat scroll right center transparent;*/
+        }
+        .pricetrend-tp-left-tit{
+            width: 40%;
+            margin: 0 auto;
+        }
+        .pricetrend-tp-left-tit>span{
+            font-size: 18px;
+        }
+    </style>
+    <style>
+        select{
+            width:auto;
+            height:30px;
+            /*appearance:none;*/
+            /*-moz-appearance:none;*/
+            /*-webkit-appearance:none;*/
+            /*background: url("images/fu_xiala.jpg") no-repeat 170px center;*/
+            /*background-size:10%;*/
+            font-size:16px;
+            font-family:Microsoft YaHei;
+            color:#666;
+            outline:none;
+            text-align: center;
+            text-align-last: center;
+        }
+        option{
+            width:100px;
+            text-align: center;
+            text-align-last: center;
+        }
+    </style>
+</head>
+<body>
+<section id="pricetrend">
+    <div class="pricetrend-top">
+        <div class="pricetrend-tp-left">
+            <div style="width: 100%;text-align: center;margin-top: 20px;display: flex;justify-content: space-between">
+                <div class="pricetrend-tp-left-tit">
+                    <span>按周</span>
+                    <select id="selectweek" style="margin-top: -20px;">
+                        <option value="第一周">第一周</option>
+                        <option value="第二周">第二周</option>
+                    </select>
+                </div>
+               <div class="pricetrend-tp-left-tit">
+                   <span>按月</span>
+                   <select id="selectmonth" style="margin-top: -20px;">
+                       <option value="第一月">第一月</option>
+                       <option value="第二月">第二月</option>
+                   </select>
+               </div>
+                <div class="pricetrend-tp-left-tit">
+                    <span>按季度</span>
+                    <select  style="margin-top: -20px;">
+                        <option value="第一季度">第一季度</option>
+                        <option value="第二季度">第二季度</option>
+                    </select>
+                </div>
+                <div class="pricetrend-tp-left-tit">
+                    <select style="margin-top: -20px;">
+                        <option>蔬菜总类</option>
+                        <!--<option></option>-->
+                    </select>
+                </div>
+            </div>
+            <div id="trendprice" style="width: 750px; height: 250px;position: relative;top: 0px;"></div>
+        </div>
+        <div class="pricetrend-tp-right">
+            <div>
+                <p>蔬菜类所占比重</p>
+                <select style="float: right;;margin-top: -30px;cursor: pointer">
+                    <option>本周</option>
+                </select>
+            </div>
+            <div id="vgtb-wt" style="width: 400px;height:230px;top: -20px;"></div>
+        </div>
+    </div>
+    <div class="pricetrend-bottom">
+        <div class="pricetrend-btm-left">
+            <div>
+                <span style="display:block;width: 100%;text-align: center;font-size: 24px">年度走势</span>
+                <select id="select" style="float: right;margin-top: -20px;margin-right: 65px">
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                </select>
+            </div>
+            <div id="trend" style="width: 750px; height: 250px;position: relative"></div>
+        </div>
+        <div class="pricetrend-btm-right">
+            <div class="compare" style="position: relative">
+                <div>
+                    <p>不同时期对比</p>
+                    <select style="position: absolute;right:0px;margin-top: -30px;cursor: pointer">
+                        <option >本周</option>
+                    </select>
+                </div>
+                <table>
+                    <tr>
+                        <td>本周销量 <br> <span>相比于上周销量</span></td>
+                        <td style="color: #f1c6b2">+24%</td>
+                    </tr>
+                    <tr>
+                        <td>本周支出<br><span>相比于上周支出</span></td>
+                        <td style="color: #84cafb">-136，400</td>
+                    </tr>
+                    <tr>
+                        <td>本周成本<br><span>相比于上周成本</span></td>
+                        <td style="color: #f55785">-8%</td>
+                    </tr>
+                    <tr>
+                        <td>本周利润<br> <span>相比于上周利润</span></td>
+                        <td style="color: #34bfa1">+26，400</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+<script src="js/echarts.js"></script>
+<script>
+    var myChartprice = echarts.init(document.getElementById('trendprice'));
+    $(function() {
+        var valweek,valmonth,w;
+        $('#selectweek').on('change', function() {
+            valweek = $(this).val();
+            _ajax(valmonth,valweek);
+
+        });
+        $('#selectmonth').on('change', function() {
+            valmonth = $(this).val();
+            _ajax(valmonth,w);
+            $('#selectweek').on('change', function() {
+                valweek = $(this).val();
+                _ajax(valmonth,valweek);
+            });
+        });
+    });
+    _ajax("第一月","第一周");
+    function _ajax(month,week) {
+        console.log(month);
+        console.log(week);
+        if (month=="第一月"){
+            if (week=="第一周"){
+                $.ajax({
+                    url: 'json/pricetrend.json',
+                    type: 'get',
+                    success: function(res) {
+                        // console.log(res.week[0].first[0]);
+                        var xData = [];
+                        var yData = [];
+                        for (let key in res.week[0].first[0] ) {
+                            xData.push(key);
+                            yData.push(parseInt(res.week[0].first[0][key])*1000)
+                        }
+                        myChartprice.setOption({
+                            xAxis: {
+                                type: 'category',
+                                data: xData
+                            },
+                            tooltip: {},
+                            yAxis: {
+                                splitLine: {
+                                    show: true,
+                                    lineStyle:{
+                                        type:'dashed'
+                                    }
+                                },
+                                type: 'value',
+                                min:0,
+                                max:10000,
+
+                                axisLabel:{
+                                    formatter: function (value) {
+                                        var texts = [];
+                                        if(value==0){
+                                            texts.push('0');
+                                        }
+                                        else if (value <=2000) {
+                                            texts.push('2k');
+                                        }
+                                        else if (value<= 4000) {
+                                            texts.push('4k');
+                                        }
+                                        else if(value<= 6000){
+                                            texts.push('6k');
+                                        }
+                                        else if(value<= 8000){
+                                            texts.push('8k');
+                                        }
+                                        else {
+                                            texts.push('10k');
+                                        }
+                                        return texts;
+
+                                    }
+                                }
+                            },
+                            series: [{
+                                name: '价格',
+                                symbol:'none',
+                                smooth:true,
+                                type: 'line',
+                                data: yData,
+                                itemStyle: {
+                                    normal: {
+                                        // color: 'black',
+                                        lineStyle: {        // 系列级个性化折线样式  
+                                            width: 6,
+                                            type: 'solid',
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+                                                    offset: 0, color: '#f55682' // 0% 处的颜色
+                                                }, {
+                                                    offset: 0.5, color: '#f96f75' // 100% 处的颜色
+                                                }, {
+                                                    offset: 1, color: '#fca874' // 100% 处的颜色
+                                                }]
+                                            ),
+                                        }
+                                    },
+                                }
+                            }]
+                        });
+                    }
+                });
+            }else {
+                $.ajax({
+                    url: 'json/pricetrend.json',
+                    type: 'get',
+                    success: function(res) {
+                        // console.log(res.week[1].second[0]);
+                        var xData = [];
+                        var yData = [];
+                        for (let key in res.week[1].second[0] ) {
+                            xData.push(key);
+                            yData.push(parseInt(res.week[1].second[0][key])*1000)
+                        }
+                        myChartprice.setOption({
+                            xAxis: {
+                                type: 'category',
+                                data: xData
+                            },
+                            tooltip: {},
+                            yAxis: {
+                                type: 'value',
+                            },
+                            series: [{
+                                name: '价格',
+                                symbol:'none',
+                                smooth:true,
+                                type: 'line',
+                                data: yData,
+                                itemStyle: {
+                                    normal: {
+                                        // color: 'black',
+                                        lineStyle: {        // 系列级个性化折线样式  
+                                            width: 6,
+                                            type: 'solid',
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+                                                    offset: 0, color: '#f55682' // 0% 处的颜色
+                                                }, {
+                                                    offset: 0.5, color: '#f96f75' // 100% 处的颜色
+                                                }, {
+                                                    offset: 1, color: '#fca874' // 100% 处的颜色
+                                                }]
+                                            ),
+                                        }
+                                    },
+                                }
+                            }]
+                        });
+                    }
+                });
+            }
+        }
+        if (month=="第二月"){
+            if (week=="第一周"){
+                $.ajax({
+                    url: 'json/pricetrend.json',
+                    type: 'get',
+                    success: function(res) {
+                        // console.log(res.week[2].third[0]);
+                        var xData = [];
+                        var yData = [];
+                        for (let key in res.week[2].third[0] ) {
+                            xData.push(key);
+                            yData.push(parseInt(res.week[2].third[0][key])*1000)
+                        }
+                        myChartprice.setOption({
+                            xAxis: {
+                                type: 'category',
+                                data: xData
+                            },
+                            tooltip: {},
+                            yAxis: {
+                                type: 'value',
+                            },
+                            series: [{
+                                name: '价格',
+                                symbol:'none',
+                                smooth:true,
+                                type: 'line',
+                                data: yData,
+                                itemStyle: {
+                                    normal: {
+                                        // color: 'black',
+                                        lineStyle: {        // 系列级个性化折线样式  
+                                            width: 6,
+                                            type: 'solid',
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+                                                    offset: 0, color: '#f55682' // 0% 处的颜色
+                                                }, {
+                                                    offset: 0.5, color: '#f96f75' // 100% 处的颜色
+                                                }, {
+                                                    offset: 1, color: '#fca874' // 100% 处的颜色
+                                                }]
+                                            ),
+                                        }
+                                    },
+                                }
+                            }]
+                        });
+                    }
+                });
+            }else {
+                $.ajax({
+                    url: 'json/pricetrend.json',
+                    type: 'get',
+                    success: function(res) {
+                        // console.log(res.week[2].third[0]);
+                        var xData = [];
+                        var yData = [];
+                        for (let key in res.week[3].fouth[0] ) {
+                            xData.push(key);
+                            yData.push(parseInt(res.week[3].fouth[0][key])*1000)
+                        }
+                        myChartprice.setOption({
+                            xAxis: {
+                                type: 'category',
+                                data: xData
+                            },
+                            tooltip: {},
+                            yAxis: {
+                                type: 'value',
+                            },
+                            series: [{
+                                name: '价格',
+                                symbol:'none',
+                                smooth:true,
+                                type: 'line',
+                                data: yData,
+                                itemStyle: {
+                                    normal: {
+                                        // color: 'black',
+                                        lineStyle: {        // 系列级个性化折线样式  
+                                            width: 6,
+                                            type: 'solid',
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+                                                    offset: 0, color: '#f55682' // 0% 处的颜色
+                                                }, {
+                                                    offset: 0.5, color: '#f96f75' // 100% 处的颜色
+                                                }, {
+                                                    offset: 1, color: '#fca874' // 100% 处的颜色
+                                                }]
+                                            ),
+                                        }
+                                    },
+                                }
+                            }]
+                        });
+                    }
+                });
+            }
+        }
+        if (week=="第一周"){
+            $.ajax({
+                url: 'json/pricetrend.json',
+                type: 'get',
+                success: function(res) {
+                    // console.log(res.week[0].first[0]);
+                    var xData = [];
+                    var yData = [];
+                    for (let key in res.week[0].first[0] ) {
+                        xData.push(key);
+                        yData.push(parseInt(res.week[0].first[0][key])*1000)
+                    }
+                    myChartprice.setOption({
+                        xAxis: {
+                            type: 'category',
+                            data: xData
+                        },
+                        tooltip: {},
+                        yAxis: {
+                            type: 'value',
+                        },
+                        series: [{
+                            name: '价格',
+                            type: 'line',
+                            data: yData,
+                            itemStyle: {
+                                normal: {
+                                    color: function(params) {
+                                        var colorList = [
+                                            '#ff9c56','#ff9b5b','#fd985d','#fd9062','#fc8e63',
+                                            '#fb8666','#fa786f','#f87474','#f76a7a','f65e80','f45586','f45389'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },
+                                    label: {
+                                        show: false
+                                    }
+                                }
+                            },
+                        }]
+                    });
+                }
+            });
+        }else {
+            $.ajax({
+                url: 'json/pricetrend.json',
+                type: 'get',
+                success: function(res) {
+                    // console.log(res.week[1].second[0]);
+                    var xData = [];
+                    var yData = [];
+                    for (let key in res.week[1].second[0] ) {
+                        xData.push(key);
+                        yData.push(parseInt(res.week[1].second[0][key])*1000)
+                    }
+                    myChartprice.setOption({
+                        xAxis: {
+                            type: 'category',
+                            data: xData
+                        },
+                        tooltip: {},
+                        yAxis: {
+                            type: 'value',
+                        },
+                        series: [{
+                            name: '价格',
+                            symbol:'none',
+                            smooth:true,
+                            type: 'line',
+                            data: yData,
+                            itemStyle: {
+                                normal: {
+                                    // color: 'black',
+                                    lineStyle: {        // 系列级个性化折线样式  
+                                        width: 6,
+                                        type: 'solid',
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+                                                offset: 0, color: '#f55682' // 0% 处的颜色
+                                            }, {
+                                                offset: 0.5, color: '#f96f75' // 100% 处的颜色
+                                            }, {
+                                                offset: 1, color: '#fca874' // 100% 处的颜色
+                                            }]
+                                        ),
+                                    }
+                                },
+                            }
+                        }]
+                    });
+                }
+            });
+        }
+    }
+
+</script>
+<script>
+    var myChart1 = echarts.init(document.getElementById('trend'));
+    $(function() {
+        $('#select').on('change', function() {
+            var val = $(this).val();
+            _ajax1(val);
+        });
+    });
+    _ajax1(2018)
+    function _ajax1(len) {
+        if (len==2018){
+            $.ajax({
+                url: 'http://www.shouziliu.com/baishi/pricetrend/',
+                type: 'get',
+                success: function(res) {
+                    var xData = [];
+                    var yData = [];
+                    for (let key in res.年度走势[0] ) {
+                        xData.push(key);
+                        yData.push(parseInt(res.年度走势[0][key])*1000)
+                    }
+                    myChart1.setOption({
+                        xAxis: {
+                            type: 'category',
+                            data: xData
+                        },
+                        tooltip: {},
+                        yAxis: {
+                            type: 'value',
+                        },
+                        series: [{
+                            name: '价格',
+                            type: 'bar',
+                            data: yData,
+                            itemStyle: {
+                                normal: {
+                                    color: function(params) {
+                                        var colorList = [
+                                            '#ff9c56','#ff9b5b','#fd985d','#fd9062','#fc8e63',
+                                            '#fb8666','#fa786f','#f87474','#f76a7a','f65e80','f45586','f45389'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },
+                                    label: {
+                                        show: false
+                                    }
+                                }
+                            },
+                        }]
+                    });
+                }
+            });
+        }else {
+            let option = {
+                tooltip: {},
+                legend: {
+                },
+                xAxis: {
+                    data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '价格',
+                    type: 'bar',
+                    data: [5000, 2000, 3600, 1000, 1000, 2000,5000, 2000, 3600, 1000, 1000, 2000],
+                    itemStyle: {
+                        normal: {
+                            color: function(params) {
+                                var colorList = [
+                                    '#ff9c56','#ff9b5b','#fd985d','#fd9062','#fc8e63',
+                                    '#fb8666','#fa786f','#f87474','#f76a7a','f65e80','f45586','f45389'
+                                ];
+                                return colorList[params.dataIndex]
+                            },
+                            label: {
+                                show: false
+                            }
+                        }
+                    },
+                }]
+            };
+
+            myChart1.setOption(option);
+            // alert("没有数据了");
+           // $("#trend").append(`<p class="trend-in" style="font-size: 40px;text-align: center;position: absolute;top: 50px;width: 100%">没有数据</p>`)
+        }
+
+    }
+
+
+
+
+</script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('vgtb-wt'));
+    var option = {
+        graphic: {
+            type: 'text',
+            style: {
+                text: '总价格',
+                x: 152,
+                y: 110,
+                fontSize: 18
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            // formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'horizontal',
+            itemHeight  :9,
+            icon: 'circle',
+            x: 30,
+            y:210,
+            data: ['肉禽类', '蔬菜类', '米面豆乳', '蛋奶类']
+        },
+        color: ["#5963fe","#f45586",'#fec800', '#f7632e'],
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                center:["45%","50%"],
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        // show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [
+                    {value: 335, name: '肉禽类'},
+                    {value: 310, name: '蔬菜类'},
+                    {value: 234, name: '米面豆乳'},
+                    {value: 135, name: '蛋奶类'},
+                ]
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+</script>
+
+</body>
+</html>

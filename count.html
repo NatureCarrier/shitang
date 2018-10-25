@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        select{
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center;margin-top: 20px">
+    <span>收支统月度记汇总表</span>
+    <select id="select1">
+        <option value="2">二月份</option>
+        <option value="1">一月份</option>
+    </select>
+</div>
+
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main1" style="width: 1100px;height:240px;background: linear-gradient(to right,#fb8a65,#f97274);margin: 0 auto;margin-top: 10px"></div>
+<br>
+<div style="text-align: center;margin-top: -8px">
+    <span style="margin: auto;">收支统年度记汇总表</span>
+    <select id="select2">
+        <option value="2">2018</option>
+        <option value="1">2017</option>
+    </select>
+</div>
+<div id="main2" style="width: 1100px;height:240px;background: linear-gradient(to right,#f97274,#fb8666);margin: 5px auto;"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+<script src="js/echarts.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('main1'));
+    var myChart2 = echarts.init(document.getElementById('main2'));
+
+    // 收支统月度记汇总表
+    function ajax1(n){
+        $.ajax({
+            url:"http://www.shouziliu.com/baishi/count/",
+            type:"get",
+            success:function(data){
+                let arr = [];
+                let month = data.month[0];
+                var xData = [];
+                var yDataIncome = [];
+                var yDataPay = [];
+                // console.log(typeof month)
+                for(let key in month){
+                    arr.push(month[key]);
+                }
+                for(let i = 0;i<arr[n-1].length;i++){
+                    xData.push(arr[n-1][i].date);
+                    yDataIncome.push(parseInt(arr[n-1][i].income)*1000);
+                    yDataPay.push(parseInt(arr[n-1][i].pay)*1000);
+                }
+                myChart1.setOption({
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right:'50',
+                        top:'10',
+                        data:['月度总收入','月度总支出']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xData
+                    },
+
+                    yAxis: {
+                        type: 'value',
+                        min: 0,
+                        max: 500000,
+                        axisLabel:{
+                            formatter:function(value){
+                                let texts = [];
+                                if(value == 0){
+                                    texts.push("0");
+                                }else if(value <= 100000){
+                                    texts.push("100k");
+                                }else if(value <= 200000){
+                                    texts.push("200k");
+                                }else if(value <= 300000){
+                                    texts.push("300k");
+                                }else if(value <= 400000){
+                                    texts.push("400k");
+                                }else if(value <= 500000){
+                                    texts.push("500k");
+                                }
+                                return texts;
+                            }
+                        },
+                        // splitArea: {
+                        //     show: true
+                        // }
+                    },
+                    series: [
+                        {
+                            name:'月度总收入',
+                            type:'line',
+                            color:'#fe1f6d',
+                            data:yDataIncome
+                        },
+                        {
+                            name:'月度总支出',
+                            type:'line',
+                            color:'#fec100',
+                            data:yDataPay
+                        }
+                    ]
+                });
+            }
+        })
+    }
+    ajax1(2);
+
+    $("#select1").on("change",function(){
+        let n = $(this).val();
+        ajax1(n);
+    })
+
+    // 收支统年度记汇总表
+    function ajax2(n){
+        $.ajax({
+            url:"http://www.shouziliu.com/baishi/count/",
+            type:"get",
+            success:function(data){
+                let arr = [];
+                let year = data.year[0];
+                var xData = [];
+                var yDataIncome = [];
+                var yDataPay = [];
+                for(let key in year){
+                    arr.push(year[key]);
+                }
+                for(let i = 0;i<arr[n-1].length;i++){
+                    xData.push(arr[n-1][i].date);
+                    yDataIncome.push(parseInt(arr[n-1][i].income)*1000);
+                    yDataPay.push(parseInt(arr[n-1][i].pay)*1000);
+                }
+                myChart2.setOption({
+                    tooltip: {
+                        trigger: 'none',
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    legend: {
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right:'50',
+                        top:'10',
+                        data:['年度总收入','年度总支出']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xData
+                    },
+                    yAxis: {
+                        type: 'value',
+                        min: 0,
+                        max: 800000,
+                        splitLine:{
+                            show:false,
+                        },
+                        axisLabel:{
+                            formatter:function(value){
+                                let texts = [];
+                                if(value == 0){
+                                    texts.push("0");
+                                }else if(value <= 200000){
+                                    texts.push("200k");
+                                }else if(value <= 400000){
+                                    texts.push("400k");
+                                }else if(value <= 600000){
+                                    texts.push("600k");
+                                }else if(value <= 800000){
+                                    texts.push("800k");
+                                }
+                                // else if(value <= 500000){
+                                //     texts.push("500k");
+                                // }
+                                return texts;
+                            }
+                        },
+                    },
+                    series: [
+                        {
+                            name:'年度总收入',
+                            type:'line',
+                            color:'#fe1f6d',
+                            smooth: true,
+                            areaStyle: {},
+                            // areaStyle: {normal: {}},
+                            data:yDataIncome
+                        },
+                        {
+                            name:'年度总支出',
+                            type:'line',
+                            color:'#fec100',
+                            smooth: true,
+                            areaStyle: {},
+                            // areaStyle: {normal: {}},
+                            data:yDataPay
+                        }
+                    ]
+                });
+            }
+        })
+    }
+    ajax2(2);
+
+    $("#select2").on("change",function(){
+        let n = $(this).val();
+        ajax2(n);
+    })
+</script>
+</html>

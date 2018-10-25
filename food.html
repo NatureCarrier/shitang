@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .foodType{
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #F8F8F8;
+            /*background: grey;*/
+            flex-wrap: wrap;
+        }
+        .foodType>div{
+            /*border: 1px solid;*/
+            height: 230px;
+            border-radius: 5px;
+            background: #FFFFFF;
+            padding: 15px 15px;
+            box-sizing: border-box;
+            margin: 25px 0;
+        }
+        .foodType>div:nth-of-type(1){
+            width: 35%;
+        }
+        .foodType>div:nth-of-type(2){
+            width: 35%;
+        }
+        .foodType>div:nth-of-type(3){
+            width: 23.5%;
+        }
+        .foodType>div:nth-of-type(4){
+            width: 48%;
+            height: 260px;
+        }
+        .foodType>div:nth-of-type(5){
+            width: 20%;
+            height: 260px;
+        }
+        .foodType>div:nth-of-type(6){
+            width: 25.5%;
+            height: 260px;
+        }
+        .profit table,.profit table tr{
+            width: 100%;
+            color: dimgray;
+        }
+        .profit table td{
+            width: 33%;
+            height: 32px;
+            line-height: 32px;
+        }
+        #sDiv{
+            text-align: center;
+            width: 100%;
+        }
+        #sDiv>div input{
+            width: 18%;
+        }
+        #t{
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        input[type=button]{
+            text-decoration: none;
+            width: 31.5%;
+            height: 35px;
+            margin: 0;
+            padding: 0;
+            border: 1px solid transparent;
+            /*//自定义边框*/
+            outline: none;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+<div class="foodType">
+    <div class="growth">
+        <h3 style="margin-bottom: 10px">总购入同比增长</h3>
+        <p style="color: red;">￥9184.00</p>
+        <div style="width: 350px;height: 160px;margin-top: 0px;">
+        </div>
+    </div>
+    <div class="profit">
+        <h3 style="margin-bottom: 10px">各类收益率</h3>
+        <div>
+            <table style="text-align: center">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                    <!--<col width="30%">-->
+                </colgroup>
+                <tbody>
+                    <tr style="font-size: 12px">
+                        <td>名称</td>
+                        <td>收益率</td>
+                        <!--<td>收益曲线</td>-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <h3 style="margin-bottom: 10px">总食材比重分析</h3>
+        <div id="weight" style="width: 240px;height: 200px;margin: auto"></div>
+    </div>
+    <div class="record">
+        <h3 style="margin-bottom: 10px">采购记录</h3>
+        <div style="text-align: center">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>类型</th>
+                        <th>时间</th>
+                        <th>支出来源</th>
+                        <th>金额</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <h3 style="margin-bottom: 10px">计算器</h3>
+        <div id="sDiv">
+            <input type="text" name="t" id="t" value="" /><br/>
+            <div>
+                <input type="button" name="" value="+" onclick="calCulate(this.value)"/>
+                <input type="button" name="" value="-" onclick="calCulate(this.value)"/>
+                <input type="button" name="" value="*" onclick="calCulate(this.value)"/>
+                <input type="button" name="" value="/" onclick="calCulate(this.value)"/>
+                <input type="button" name="" value="C" onclick="calCulate(this.value)"/>
+            </div>
+
+            <input type="button" name="" value="1" onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="2" onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="3" onclick="calCulate(this.value)"/><br />
+            <input type="button" name="" value="4" onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="5" onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="6" onclick="calCulate(this.value)"/><br />
+            <input type="button" name="" value="7" onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="8" onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="9" onclick="calCulate(this.value)"/><br />
+            <input type="button" name="" value="." onclick="calCulate(this.value)"/>
+            <input type="button" name="" value="0" onclick="calCulate(this.value)"/>
+            <input type="button" name="" id="equ" value="=" onclick="calCulate(this.value)"/>
+        </div>
+    </div>
+    <div class="remarks">
+        <h3 style="margin-bottom: 10px">备注消息</h3><br>
+        <div style="color: dimgray;"></div>
+    </div>
+</div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+<script src="js/echarts.js"></script>
+<script>
+    let myChart = echarts.init(document.getElementById('weight'));
+    let myChartg = echarts.init(document.getElementsByClassName("growth")[0].getElementsByTagName("div")[0]);
+    $.ajax({
+        url:'http://www.shouziliu.com/baishi/food/',
+        type:'get',
+        success:function(data){
+            let rec = data["procurement-records"];
+            let rem = data["remarks"];
+            let pro = data["profit"];
+            let gro = data["growth"];
+            // console.log(data["procurement-records"] instanceof Array);
+
+            let xDataGro = [];
+            let yDataGro = [];
+            for(let i = 0;i<gro.length;i++){
+                xDataGro.push(gro[i].time);
+                yDataGro.push(gro[i].data);
+            }
+            // console.log(xxData, yyData);
+            myChartg.setOption({
+                xAxis: {
+                    show:false,
+                    type: 'category',
+                    data: xDataGro
+                },
+                yAxis: {
+                    show:false,
+                    type: 'value'
+                },
+                series: [{
+                    data: yDataGro,
+                    type: 'line',
+                    smooth: true
+                }]
+            });
+
+            for(let i = 0;i<rec.length;i++){
+                $(".record table tbody").append(`
+                    <tr>
+                        <td>${rec[i].type}</td>
+                        <td>${rec[i].time}</td>
+                        <td>${rec[i].source}</td>
+                        <td style="color:red">${rec[i].sum}</td>
+                        <td><img style="width: 15px;height: 15px;" src="images/xy_dui.png" /></td>
+                    </tr>
+                `);
+            }
+            for(let i = 0;i<rem.length;i++){
+                $(".remarks>div").append(`
+                    <p style="width: 40%;height:35px;line-height: 35px;float: left;">${rem[i].time}</p>
+                    <p style="width: 58%;height:35px;line-height: 35px;float: right">${rem[i].remarks}</p>
+                `)
+            }
+
+            for(let i = 0;i<pro.length-1;i++){
+                $(".profit table tbody").append(`
+                   <tr>
+                       <td>${pro[i].name}</td>
+                       <td>${pro[i].per}</td>
+                       <!--<td>5675</td>-->
+                       <!--<td>${pro[i].name}</td>-->
+                   </tr>
+                `)
+            }
+
+            let xData = [];
+            let yData = [];
+            for(let i = 0;i<pro.length;i++){
+                xData.push(pro[i].name);
+                yData.push({
+                    value:parseInt(pro[i].weight),
+                    name:pro[i].name
+                })
+            }
+
+            myChart.setOption({
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    // left: 'left',
+                    right: 10,
+                    top: 20,
+                    data: xData
+                },
+                series : [
+                    {
+                        name: '蔬菜种类',
+                        type: 'pie',
+                        radius : "59%",
+                        center: ['30%', '40%'],
+                        data:yData,
+                        label:{
+                            normal:{
+                                show:false
+                            }
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            });
+
+
+        }
+    })
+
+    function calCulate(val){
+        var num = document.getElementById("t");
+        switch(val){
+            case "=":
+                num.value = eval(num.value);
+                break;
+            case "C":
+                num.value = "";
+                break;
+            default:
+                num.value =num.value+val;
+                break;
+        }
+    }
+
+
+</script>
+</html>

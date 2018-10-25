@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂后台管理-登录注册</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="icon" href="images/st.png">
+    <!--<script src="js/iconfont.eot"></script>-->
+    <!--<link rel="stylesheet" href="layui/css/layui.css">-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script>
+        $(document).ready(function () {
+            var rem =$.cookie(".check");
+            if (rem){
+                $(".check").prop("checked",true);
+                $(".user_name").val($.cookie(".user_name"));
+                $(".user_pass").val($.cookie(".user_pass"))
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="main main_zhu ">
+    <h2>校园食堂后台管理平台</h2>
+    <div class="form_zhu">
+        <div><i class="iconfont icon-youxiang"></i><input type="text" name="email" id="email" placeholder="请输入邮箱"><span id="email_msg"></span></div>
+        <div><i class="iconfont icon-1"></i><input type="text" name="username" id="username" placeholder="请输入用户名"><span id="username_msg"></span></div>
+        <div><i class="iconfont icon-mima"></i><input type="text" name="password" id="password" placeholder="请设置密码"><span id="password_msg"></span></div>
+        <div><i class="iconfont icon-mima"></i><input type="text" name="repasswprd" id="repassword" placeholder="请确认密码"><span id="repassword_msg"></span>
+        </div>
+        <input type="submit" name="submit" value="注册" class="login_bg register"
+               style="border: 1px solid transparent;outline: none;">
+    </div>
+    <div class="else login_zc">
+        <span>已经注册请点击<button style="background-color: transparent;border-color: transparent;outline: none;"
+                             class="">登录</button></span>
+    </div>
+</div>
+<div class="main mian_login">
+    <h2>校园食堂后台管理平台</h2>
+    <!--<div class="mian_login">-->
+    <div class="username inpt">
+        <i class="user_img"></i>
+        <input type="text" placeholder="请输入管理员姓名" class="inp user_name">
+        <span class="alert none ">该用户名还未被注册</span>
+    </div>
+    <div class="password inpt">
+        <i class="pass_img"></i>
+        <input type="text" placeholder="请输入登录密码" class="inp user_pass">
+        <span class="alert none">密码有误请重试</span>
+    </div>
+    <div class="checkbox">
+        <form action=""></form>
+        <input type="checkbox" class="check">
+        <span>记住用户名</span>
+    </div>
+    <!--</div>-->
+    <div class="login_bg login_bt">
+        <button style="background-color: transparent;width: 200px;border-color: transparent;outline: none;cursor: pointer">
+            登录
+        </button>
+    </div>
+    <div class="else login_inp">
+        <span>还没注册？点击<button style="background-color: transparent;border-color: transparent;outline: none;">注册</button></span>
+    </div>
+</div>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>-->
+<script>
+    $(".login_inp").click(function () {
+        $(".mian_login").css({"transform": "rotateY(180deg)"});
+        $(".main_zhu").css({"transform": "rotateY(0deg)"});
+    });
+    $(".login_zc").click(function () {
+        $(".mian_login").css({"transform": "rotateY(0deg)"});
+        $(".main_zhu").css({"transform": "rotateY(180deg)"});
+    })
+</script>
+<script>
+    //是否为空
+    function ifnull(txt) {
+        if (txt.length == 0) {
+            return true;
+        }
+        var $reg = /\s+/;
+        return $reg.test(txt);
+    }
+
+    //在id为email的元素失去焦点时进行邮箱的验证
+    $("#email").blur(function () {
+        if (ifnull($(this).val())) {
+            $("#email_msg").html("邮箱不能为空");
+        } else {
+            var $reg = /^[a-zA-Z1-9]\w{1,}@[a-zA-Z1-9]{2,}(\.(com|cn|net)){1,2}$/;
+            if (!$reg.test($("#email").val())) {
+                $("#email_msg").html("邮箱格式错误！");
+            } else {
+                            $("#email_msg").html("√");
+                        }
+
+            }
+    });
+    //在id为username的元素失去焦点时进行用户名的验证
+    $("#username").blur(function () {
+        if (ifnull($(this).val())) {
+            $("#username_msg").html("用户名不能为空");
+        } else {
+            var $reg = /^\w{6,}$/;
+            if (!$reg.test($("#username").val())) {
+                $("#username_msg").html("用户名至少要6位哦");
+            } else {
+                $("#username_msg").html("√");
+            }
+        }
+    });
+    //在id为password的元素失去焦点时进行密码的验证
+    $("#password").blur(function () {
+        if (ifnull($(this).val())) {
+            $("#password_msg").html("用户名不能为空");
+        } else {
+            var $reg = /^\w{6,}$/;
+            if (!$reg.test($("#password").val())) {
+                $("#password_msg").html("密码至少要6位哦");
+            } else {
+                $("#password_msg").html("√");
+            }
+        }
+    });
+    //在id为repassword的元素失去焦点时进行密码的验证
+    $("#repassword").blur(function () {
+        if (ifnull($(this).val())) {
+            $("#repassword_msg").html("请确认密码");
+        } else {
+            if ($("#password").val() != $("#repassword").val()) {
+                $("#repassword_msg").html("两次密码不一致");
+            } else {
+                $("#repassword_msg").html("√");
+            }
+        }
+    });
+
+    //验证表单
+    function checkForm() {
+        //验证邮箱
+        if (ifnull($("#email").val())) {
+            $("#email_msg").html("邮箱不能为空！");
+            return false;
+        } else {
+            var $reg = /^[a-zA-Z1-9]\w{1,}@[a-zA-Z1-9]{2,}(\.(com|cn|net)){1,2}$/;
+            if (!$reg.test($("#email").val())) {
+                $("#email_msg").html("邮箱格式错误！");
+                return false;
+            }
+        }
+        //验证用户名
+        if (ifnull($("#username").val())) {
+            $("#username_msg").html("用户名不能为空！");
+            return false;
+        } else {
+            var $reg = /^\w{6,}$/;
+            if (!$reg.test($("#username").val())) {
+                $("#username_msg").html("用户名至少6位");
+                return false;
+            }
+        }
+        //验证密码
+        if (ifnull($("#password").val())) {
+            $("#password_msg").html("密码不能为空");
+            return false;
+        } else {
+            var $reg = /^\w{6,}$/;
+            if (!$reg.test($("#password").val())) {
+                $("#password_msg").html("密码至少6位");
+                return false;
+            }
+        }
+        //确认密码是否为空
+        if (ifnull($("#repassword").val())) {
+            $("#repassword_msg").html("请确认密码");
+            return false;
+        }
+        //验证两次密码是否一致
+        if ($("#password").val() != $("#repassword").val()) {
+            $("#repassword_msg").html("两次密码不一致");
+            return false;
+        }
+        return true;
+    }
+</script>
+<script>
+    //注册
+    $(".register").click(function () {
+        var Email = $("#email").val(),
+            Uesrname = $("#username").val(),
+            Password = $("#password").val(),
+            Repassword = $("#repassword").val();
+        if (Email !="" && Uesrname != "" && Password != "" && Repassword != "") {
+            $.ajax({
+                type: "post",
+                url: "http://www.shouziliu.com/baishi/user/register.php",
+                data: {"username": Uesrname, "email": Email, "password": Password},
+                success: function (data) {
+                    console.log(data);
+                    if(data.logID==0){
+                        alert('该用户已经注册过了！')
+                    }else{
+                        alert('恭喜你，已经注册成功！请点击登录，进行登录！')
+                    }
+                }
+            })
+        }
+    })
+
+
+
+</script>
+<script>
+    // 登录
+    $(".login_bt").click(function () {
+        var name = $(".user_name").val(),
+            pass = $(".user_pass").val();
+        if (name != '' && pass != ''){
+            $.post('http://www.shouziliu.com/baishi/user/login.php', {
+                username: name,
+                password: pass
+            }, function (data) {
+                console.log(data);
+                if (data.error) {
+                    console.log('error');
+                } else {
+                    let encode = window.btoa(`username=${name}&password=${pass}`)//加密
+                    location.href = `index.html?${encode}`//通过？拼接username=name&password=pass
+                    save_cookies();
+                }
+
+            })
+        }else{
+            console.log('空');
+        }
+
+    })
+</script>
+<!--记住密码-->
+
+<script>
+    function save_cookies(){
+        if($(".check").prop("checked")){
+            var username = $(".user_name").val();
+            var password = $(".user_pass").val();
+
+            $.cookie("check","true",{expires:7});
+            $.cookie("user_name",username,{expires:7 });
+            $.cookie("user_pass",password,{expires:7 });
+        }else{
+            $.cookie("remember","false",{expires:-1});
+            $.cookie("user_name","",{ expires:-1 });
+            $.cookie("user_pass","",{ expires:-1 });
+        }
+    };
+</script>
+</body>
+</html>

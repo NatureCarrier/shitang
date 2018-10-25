@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂后台管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/st.png">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all"/>
+</head>
+<body class="main_body main_bg">
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div class="layui-header hd_bg">
+        <div class="layui-main header">
+            <!--右侧头部-->
+            <div style="line-height: 86px;text-align: center;position: relative">
+                <p class="tab_title tab_act" style="color: black;font-size: 24px;position: absolute;top: 0px;left:50%;">
+                    采购总览</p>
+                <p class="tab_title" style="color: black;font-size: 24px;position: absolute;top: 0px;left:50%;">
+                    价格走势汇总</p>
+                <p class="tab_title" style="color: black;font-size: 24px;position: absolute;top: 0px;left:50%;">
+                    食材种类购物汇总</p>
+                <p class="tab_title" style="color: black;font-size: 24px;position: absolute;top: 0px;left:50%;">
+                    收支统计</p>
+            </div>
+            <ul class="nav_right layui-nav layui-layout-right">
+                <li class="layui-nav-item set">
+                    <a href="javascript:;" style="display: flex;line-height: 60px">
+                        <i class="layui-icon"
+                           style="display:block;color: black;width: 21px;font-size:20px;height: 34px; text-align: center">&#xe667;</i>
+                        <span style="display:block;width: 5px;height: 5px;border: 1px solid red;border-radius: 50%;margin-top: 12px"></span>
+                        <img src="images/tu1.png" alt="头像"
+                             style="width: 50px;height: 50px;margin-left: 18px;margin-top: 5px">
+                        <div style="display: flex" class="menu">
+                            <cite style="color: black;font-size: 16px;margin-left: 18px" class="htc">后台陈经理</cite>
+                            <i class="layui-icon turn" style="display:block;color: black;margin-left: 10px">&#xe61a;</i>
+                            <dl class="dlist "> <!-- 二级菜单 -->
+                                <dd>切换</dd>
+                                <dd class="quick">退出</dd>
+                            </dl>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--左侧部航栏-->
+    <div class="layui-side layui-bg-black left_nav_width" style="z-index: 999">
+        <ul class="layui-nav layui-nav-tree left_nav_width" lay-filter="test"
+            style="background-color: transparent;cursor: pointer">
+            <li class="layui-nav-itemed" style="margin-top:32px;margin-left: 20px">
+                <a>
+                    <i class="layui-icon left_icon" style="font-size: 18px">&#xe668;</i>
+                    <cite class="left_icon" style="font-size: 18px">食堂后台管理系统</cite>
+                </a>
+            </li>
+            <li class="layui-nav-item " style="margin-top: 138px">
+                <a class="can changone">
+                    <i class="layui-icon left_icon">&#xe63c;</i>
+                    <cite class="left_icon">今日采购</cite></a></li>
+            <li class="layui-nav-item " style="margin-top:30px"><a class="can">
+                <i class="layui-icon left_icon">&#xe62c;</i>
+                <cite class="left_icon">价格走势</cite></a></li>
+            <li class="layui-nav-item " style="margin-top: 30px"><a class="can">
+                <i class="layui-icon left_icon">&#xe657;</i>
+                <cite class="left_icon">食材采购</cite></a></li>
+            <li class="layui-nav-item " style="margin-top: 30px">
+                <a class="can">
+                    <i class="layui-icon icon_other left_icon">&#xe629;</i>
+                    <cite class="left_icon">收支统计</cite></a>
+            </li>
+        </ul>
+    </div>
+    <!--右侧内容-->
+    <div class="layui-body content">
+        <div class=" layui-body  cont show ">
+
+            <iframe src="purchase.html"  width="100%" height="600px" marginwidth="0"
+                    marginheight="0" hspace=0 vspace=0 frameborder="0" scrolling="no">
+            </iframe>
+        </div>
+        <div class=" layui-body  cont">
+            <iframe src="pricetrend.html"  width="100%" height="600px" marginwidth="0"
+                    marginheight="0" hspace=0 vspace=0 frameborder="0" scrolling="no">
+            </iframe>
+        </div>
+        <div class=" layui-body  cont">
+            <iframe src="food.html" width="100%" height="600px" marginwidth="0"
+                    marginheight="0" hspace=0 vspace=0 frameborder="0" scrolling="no">
+            </iframe>
+        </div>
+        <div class="layui-body  cont">
+
+            <iframe src="count.html" width="100%" height="600px" marginwidth="0"
+                    marginheight="0" hspace=0 vspace=0 frameborder="0" scrolling="no">
+            </iframe>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="layui/layui.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>-->
+<!--<script>-->
+<!--layui.use('element', function () {-->
+<!--var element = layui.element;-->
+<!--});-->
+
+<!--layui.use('form', function () {-->
+<!--var form = layui.form;-->
+<!--//监听提交-->
+<!--form.on('submit(formDemo)', function (data) {-->
+<!--layer.msg(JSON.stringify(data.field));-->
+<!--return false;-->
+<!--});-->
+<!--});-->
+<!--</script>-->
+<!--<script>-->
+<!--$(".message").mouseover(".article").css({transform:"rotate(720deg)",color:"black"})-->
+<!--</script>-->
+<script>
+    // $(".left_nav_width>li").click(".layui-nav-item").addClass(".changone").siblings().removeClass(".changone")
+    var Change = document.getElementsByClassName("left_nav_width")[0].getElementsByClassName("can");
+    var Ttilt = document.getElementsByClassName("tab_title");
+    var Content = document.getElementsByClassName("cont");
+    // console.log(Change.length);
+    for (let i = 0; i < Change.length; i++) {
+        Change[i].onclick = function () {
+            for (let j = 0; j < Change.length; j++) {
+                Change[j].classList.remove("changone");
+                Ttilt[j].classList.remove("tab_act");
+                Content[j].classList.remove("show");
+            }
+            Change[i].classList.add("changone");
+            Ttilt[i].classList.add("tab_act");
+            Content[i].classList.add("show");
+        }
+    }
+</script>
+<script>
+
+    //退出登录
+    layui.use(['jquery'], function(){
+        var $ = jQuery = layui.$;//初始化，转换$
+
+        let str=location.search.substr(1)//获取？后的内容
+        let decode=window.atob(str)//解密
+        let arr=decode.split('&')//通过&分解
+        let name=arr[0].split('=')[1]//通过=分解
+        let pass=arr[1].split('=')[1]
+
+    $(".quick").click(function () {
+        $.post('http://www.shouziliu.com/baishi/user/quit.php',{
+            username:name,
+            password:pass
+        },function (data) {
+            location.href='login.html'
+        })
+    })
+    });
+
+</script>
+</body>
+</html>
